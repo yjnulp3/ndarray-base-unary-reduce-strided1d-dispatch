@@ -63,7 +63,7 @@ To view installation and usage instructions specific to each branch build, be su
 var UnaryStrided1dDispatch = require( '@stdlib/ndarray-base-unary-reduce-strided1d-dispatch' );
 ```
 
-#### UnaryStrided1dDispatch( table, idtypes, odtypes, policy )
+#### UnaryStrided1dDispatch( table, idtypes, odtypes, policies )
 
 Constructor for performing a reduction on an input ndarray.
 
@@ -75,9 +75,12 @@ var table = {
 };
 
 var dtypes = [ 'float64', 'float32', 'generic' ];
-var policy = 'same';
+var policies = {
+    'output': 'same',
+    'casting': 'none'
+};
 
-var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policy );
+var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policies );
 ```
 
 The constructor has the following parameters:
@@ -95,7 +98,10 @@ The constructor has the following parameters:
 
 -   **odtypes**: list of supported output data types.
 
--   **policy**: output data type policy.
+-   **policies**: dispatch policies. Must have the following properties:
+
+    -   **output**: output data type [policy][@stdlib/ndarray/output-dtype-policies].
+    -   **casting**: input ndarray casting [policy][@stdlib/ndarray/input-casting-policies].
 
 #### UnaryStrided1dDispatch.prototype.apply( x\[, ...args]\[, options] )
 
@@ -110,9 +116,12 @@ var table = {
 };
 
 var dtypes = [ 'float64', 'float32', 'generic' ];
-var policy = 'same';
+var policies = {
+    'output': 'same',
+    'casting': 'none'
+};
 
-var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policy );
+var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policies );
 
 var xbuf = [ -1.0, 2.0, -3.0 ];
 var x = new ndarray( 'generic', xbuf, [ xbuf.length ], [ 1 ], 0, 'row-major' );
@@ -148,9 +157,12 @@ var table = {
 };
 
 var dtypes = [ 'float64', 'float32', 'generic' ];
-var policy = 'same';
+var policies = {
+    'output': 'same',
+    'casting': 'none'
+};
 
-var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policy );
+var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policies );
 
 var xbuf = [ -1.0, 2.0, -3.0 ];
 var x = new ndarray( 'generic', xbuf, [ xbuf.length ], [ 1 ], 0, 'row-major' );
@@ -175,12 +187,15 @@ var ndarray = require( '@stdlib/ndarray-base-ctor' );
 
 var idt = dtypes( 'real_and_generic' );
 var odt = idt;
-var policy = 'same';
+var policies = {
+    'output': 'same',
+    'casting': 'none'
+};
 
 var table = {
     'default': base
 };
-var unary = new UnaryStrided1dDispatch( table, [ idt ], odt, policy );
+var unary = new UnaryStrided1dDispatch( table, [ idt ], odt, policies );
 
 var xbuf = [ -1.0, 2.0, -3.0 ];
 var x = new ndarray( 'generic', xbuf, [ xbuf.length ], [ 1 ], 0, 'row-major' );
@@ -254,8 +269,11 @@ var UnaryStrided1dDispatch = require( '@stdlib/ndarray-base-unary-reduce-strided
 var idt = dtypes( 'real_and_generic' );
 var odt = dtypes( 'real_and_generic' );
 
-// Define the policy mapping an input data type to an output data type:
-var policy = 'same';
+// Define dispatch policies:
+var policies = {
+    'output': 'same',
+    'casting': 'none'
+};
 
 // Define a dispatch table:
 var table = {
@@ -271,7 +289,7 @@ var table = {
 };
 
 // Create an interface for performing a reduction:
-var max = new UnaryStrided1dDispatch( table, [ idt ], odt, policy );
+var max = new UnaryStrided1dDispatch( table, [ idt ], odt, policies );
 
 // Generate an array of random numbers:
 var xbuf = uniform( 100, -1.0, 1.0, {
@@ -325,11 +343,6 @@ For more information on the project, filing bug reports and feature requests, an
 
 ---
 
-## License
-
-See [LICENSE][stdlib-license].
-
-
 ## Copyright
 
 Copyright &copy; 2016-2025. The Stdlib [Authors][stdlib-authors].
@@ -376,7 +389,9 @@ Copyright &copy; 2016-2025. The Stdlib [Authors][stdlib-authors].
 [esm-readme]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/blob/esm/README.md
 [branches-url]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/blob/main/branches.md
 
-[stdlib-license]: https://raw.githubusercontent.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/main/LICENSE
+[@stdlib/ndarray/output-dtype-policies]: https://github.com/stdlib-js/ndarray-output-dtype-policies
+
+[@stdlib/ndarray/input-casting-policies]: https://github.com/stdlib-js/ndarray-input-casting-policies
 
 </section>
 
